@@ -1,4 +1,4 @@
-NAME = test
+NAME = marx_man
 LIBFLAGS = -Llib 
 DEBUG = -g
 PP = g++ $(DEBUG)
