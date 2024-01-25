@@ -1,0 +1,5 @@
+// dont track objects or archives in any directory
+*.[oa]
+// ignore main, main.out and a.out
+*.out
+main
