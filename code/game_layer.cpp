@@ -4,47 +4,65 @@
 
 typedef GameLayer::GameNode GameNode; // just uncovers the name for this translation unit, doesnt work with methods :/
 
+/**
+ * @brief Construct a new `GameLayer` object, with `.id` set to 0
+ *
+ */
 GameLayer::GameLayer()
 {
-	for(int x = 0; x < 10; x++)
-		for(int y = 0; y < 10; y++)
-			{
-				layer[x][y].id = 0;
-			}
+	for (int x = 0; x < 10; x++)
+		for (int y = 0; y < 10; y++)
+		{
+			layer[x][y].id = 0;
+		}
 }
 
+/**
+ * @brief Returns if the cell with coordinates (`x`,`y`) exists
+ *
+ * @param x
+ * @param y
+ * @return true
+ * @return false
+ */
 bool GameLayer::exists(int x, int y)
 {
 	return !(x > 9 || x < 0 || y > 9 || y < 0);
 }
 
+/**
+ * @brief Get the cell at coordinates (`x`,`y`)
+ *
+ * @param x
+ * @param y
+ * @return GameNode
+ */
 GameNode GameLayer::getCell(int x, int y)
 {
-	if(!exists(x,y))
+	if (!exists(x, y))
 	{
 		throw std::runtime_error("Out of bounds exception, attempting to GET a cell that does not exist!");
 	}
 	return layer[x][y];
 }
 
+/**
+ * @brief Set the cell at coordinates (`x`,`y`) to `value`
+ *
+ * @param x
+ * @param y
+ * @param value
+ */
 void GameLayer::setCell(int x, int y, GameNode value)
 {
-	if(!exists(x,y))
+	if (!exists(x, y))
 	{
 		throw std::runtime_error("Out of bounds exception, attempting to SET a cell that does not exist!");
 	}
 	layer[x][y] = value;
 }
 
-/* ::Some fluf, coppy to a note or smt, delete if forgot
-Visualizer -> (rule master) -> screen
-Controler -> (input method)+(rule master)
-AI -> software input
-Input -> hardware input
-RuleMaster -> move, fire, turn order
-PhyLayer -> support certain actions (shoot)
-GameLayer -> add, remove, edit
-*/
+
 
 // UNCOMMENT FOR TESTING
 /*
@@ -64,6 +82,6 @@ int main(int argc, char **argv)
 	}catch(const std::exception& e){
 		std::cout<<e.what()<<std::endl;
 	};
-		
+
 	return 0;
 }*/

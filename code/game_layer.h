@@ -9,6 +9,7 @@ public:
 	 */
 	class Stats
 	{
+	public:
 		int hp;
 	};
 
@@ -19,10 +20,23 @@ public:
 		int id;
 	};
 
+	/**
+	 * @brief Class representing a position somewhere on the board, with fields `x` and `y`
+	 * 
+	 */
 	class GamePos
 	{
+	public:
 		int x;
 		int y;
+
+		GamePos();
+
+		GamePos(int x, int y);
+
+		GamePos operator-(GamePos const &other);
+
+		GamePos operator+(GamePos const &other);
 	};
 
 	GameNode layer[10][10];
@@ -42,6 +56,15 @@ public:
 	 * @return false
 	 */
 	bool exists(int x, int y);
+
+	/**
+	 * @brief Returns if the cell with coordinates `pos` exists
+	 * 
+	 * @param pos 
+	 * @return true 
+	 * @return false 
+	 */
+	bool exists(GamePos pos);
 
 	/**
 	 * @brief Get the cell at coordinates (`x`,`y`)

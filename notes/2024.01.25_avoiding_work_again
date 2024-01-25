@@ -1,0 +1,9 @@
+/* ::Some fluf, coppy to a note or smt, delete if forgot
+Visualizer -> (rule master) -> screen
+Controler -> (input method)+(rule master)
+AI -> software input
+Input -> hardware input
+RuleMaster -> move, fire, turn order
+PhyLayer -> support certain actions (shoot)
+GameLayer -> add, remove, edit
+*/
