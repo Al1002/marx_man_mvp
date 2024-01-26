@@ -1,0 +1,17 @@
+one, refrence the google doc i left you
+
+second, for this MVP, we need:
+
+An enemy that takes actions based on its enviornment (moves unless it hits a wall)
+
+A character that has a mele and a gun (i.e full geometric support)
+
+Input from the keyboard
+
+A way to draw sprites on the screen
+
+Dying
+
+A menu to restart the game
+
+Anything above this can crash and burn
