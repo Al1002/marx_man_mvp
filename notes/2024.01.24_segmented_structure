@@ -1,0 +1,55 @@
+/* ::Some fluf, coppy to a note or smt, delete if forgot
+Visualizer -> (rule master) -> screen
+Controler -> (input method)+(rule master)
+AI -> software input
+Input -> hardware input
+RuleMaster -> move, fire, turn order
+PhyLayer -> support certain actions (shoot)
+GameLayer -> add, remove, edit
+*/
+
+
+that pile of text?
+
+that is our list of things to make, in broad strokes
+
+currently, ive added the game layer, the structs it stores however are not done
+
+we want it to store as little as possible when it comes to things that arent
+
+gamestate related. no Sprites, no phy bullshit. These modules should be 
+
+autonomous, both to not make my brain hurt, as well as to ensure we can
+
+work on them in seperation, keeping steady progress, while also being able
+
+to re-use them in future.
+
+
+
+Next up: logic
+
+right now we just have some blobs of data (two ints) that we can write to
+
+we need to edit what we store (weapons) and add something that can use that data
+
+(the rule master as ive called it), an api that tracks moves, events, so on
+
+
+i say, for the sake of me not gougin my eyes out, we have that be a seperate module
+
+to the store-data object. Does this make sense? ive no clue
+
+
+does it compartmentalize our code? yes, that it does
+
+
+ive elected to consult ChatGPT (...call lasted 5 mins)
+
+after long deliberation, i will add the interface as its own class,
+
+as otherwise the single responcibility fuckadoodle will not be satisfied
+
+
+in future (i.e. after the mvp is done), i may merge them back
+
