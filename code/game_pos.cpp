@@ -23,3 +23,8 @@ GamePos GameLayer::GamePos::operator+(GamePos const &other)
 {
     return GamePos(this->x + other.x, this->y + other.y);
 }
+
+bool GameLayer::GamePos::operator==(GamePos const &other)
+{
+    return this->x == other.x && this->y == other.y;
+}

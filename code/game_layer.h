@@ -1,5 +1,7 @@
 #pragma once
 
+class MeleWeapon;
+
 class GameLayer
 {
 public:
@@ -11,13 +13,6 @@ public:
 	{
 	public:
 		int hp;
-	};
-
-	class GameNode
-	{
-	public:
-		Stats stats;
-		int id;
 	};
 
 	/**
@@ -37,6 +32,20 @@ public:
 		GamePos operator-(GamePos const &other);
 
 		GamePos operator+(GamePos const &other);
+
+		bool operator==(GamePos const &other);
+	};
+
+	class GameNode
+	{
+	public:
+		int id;
+		GameLayer *layer;
+		GamePos pos;
+		Stats stats;
+		MeleWeapon *mele;
+		void setLayer(GameLayer *layer);
+		void useMele(GamePos target);
 	};
 
 	GameNode layer[10][10];

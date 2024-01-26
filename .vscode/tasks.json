@@ -6,12 +6,12 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-fdiagnostics-color=always",
-                "-Llib",
-                "-ltest",
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-Llib",
+                "-lmarx_man"
             ],
             "options": {
                 "cwd": "${fileDirname}"

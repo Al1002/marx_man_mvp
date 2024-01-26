@@ -3,6 +3,7 @@
 #include "game_layer.h"
 
 typedef GameLayer::GameNode GameNode; // just uncovers the name for this translation unit, doesnt work with methods :/
+typedef GameLayer::GamePos GamePos;
 
 /**
  * @brief Construct a new `GameLayer` object, with `.id` set to 0
@@ -27,6 +28,20 @@ GameLayer::GameLayer()
  */
 bool GameLayer::exists(int x, int y)
 {
+	return !(x > 9 || x < 0 || y > 9 || y < 0);
+}
+
+/**
+ * @brief Returns if the cell with coordinates `pos` exists
+ *
+ * @param pos
+ * @return true
+ * @return false
+ */
+bool GameLayer::exists(GamePos pos)
+{
+	int x = pos.x;
+	int y = pos.y;
 	return !(x > 9 || x < 0 || y > 9 || y < 0);
 }
 
