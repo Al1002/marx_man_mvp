@@ -1,7 +1,6 @@
 #include <iostream>
-#include "include/game_layer.h"
-#include "include/mele_weapon.h"
-#include "include/broad_sword.h"
+#include ".include/game_layer.h"
+#include ".include/broad_sword.h"
 
 int main(int argc, char **argv)
 {

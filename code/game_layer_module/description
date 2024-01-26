@@ -1,0 +1,14 @@
+This folder consists of the game layer module.
+This module is concerned with managing data on a per-encounter basis,
+providing an API for the weapons, entities, and enviornment to use.
+
+It is not concerned with traking currency, progression, unlocks, or specific implementations. 
+
+
+The classes in this module are:
+
+GameLayer - A class that stores and manages data for the entities on a per-encounter basis. It stores information about each cell in an array of GameNodes.
+
+GameNode - A class that represent a tile on the board. This includes the state of the tile, the entity (if any) on the tile, and provides functions to interface with the entity/tile it represents
+
+GamePos - A 2D vector representing a position on the board. Currently it exists without a link to GameLayer, this may be changed in future.

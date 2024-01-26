@@ -1,0 +1,12 @@
+I just scored (possibly) 3 people, including a graphic designer. Admitedly, didnt make a good first impression, so i should work on that.
+
+Also, these are going public, i.e. not a good idea to have them in the repo.
+
+If you are reading this, please tell me to include /notes/ in the .gitignore file.
+
+Best regards, Alex.
+
+
+As for the coding - we need to expand the GameNode class. 
+
+Simple as, needs a movement interface, a mele, such and such.

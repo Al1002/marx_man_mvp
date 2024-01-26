@@ -1,5 +1,5 @@
-NAME = marx_man
-LIBFLAGS = -Llib -lgame_layer_module
+NAME = game_layer_module
+LIBFLAGS = -Llib
 DEBUG = -g
 PP = g++ $(DEBUG)
 CC := gcc $(DEBUG)
@@ -45,7 +45,7 @@ build: lib.a | ../.lib ../.include
 	mv lib.a ../.lib/lib$(NAME).a
 	cp $(HEADERS) ../.include/
 	if [ -d ".include" ]; then \
-        cp -r .include/* ../.include/; \
+        cp .include/* ../.include/; \
     fi
 	if [ -d ".lib" ]; then \
         cp .lib/* ../.lib/; \

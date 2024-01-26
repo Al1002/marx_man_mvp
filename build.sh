@@ -1,12 +1,41 @@
 #!/bin/bash
-cd code
-make build
-cd ..
+
+# Function to recursively build directories
+recursive_build() {
+    local dir="$1"
+    cd "$dir" || exit 1
+
+    # Check if Makefile exists
+    if [ ! -f "Makefile" ]; then
+        cd ..
+        return
+    fi
+    echo "Building in $dir"
+
+    # Build in subdirectories
+    for subdir in */; do
+        if [ -d "$subdir" ]; then
+            recursive_build "$subdir"
+        fi
+    done
+    
+    # Build in parent directory
+    make build > /dev/null
+    
+    cd ..
+}
+
+script_dir="$(dirname "$0")"
+
+cd $script_dir
+
+recursive_build code/
+
 source dependencies.conf
 if [ -f main.cpp ]; then
-    g++ main.cpp -o main.out -Llib $LIBS
+    g++ main.cpp -o main.out -L.lib $LIBS
 fi
 
 if [ -f main.c ]; then
-    gcc main.c -o main.out -Llib $LIBS
+    gcc main.c -o main.out -L.lib $LIBS
 fi

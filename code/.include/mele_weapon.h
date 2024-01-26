@@ -1,5 +1,6 @@
 #pragma once
 #include "game_layer.h"
+#include <list>
 
 /**
  * @brief Class/interface for all mele-like objects. Mele weapons do not logically exist in the enviornment and as such take positional arguments. 
@@ -17,8 +18,11 @@ public:
     virtual void attack(GameLayer *layer, GameLayer::GamePos origin, GameLayer::GamePos target) = 0;
     
     /**
-     * @brief Returns a list of spaces the weapon can target.
+     * @brief Returns list of tiles the weapon can target.
      * 
+     * @param layer 
+     * @param origin 
+     * @return std::list<GameLayer::GamePos> 
      */
-    //virtual void Targetable(GameLayer *layer, GameLayer::GamePos origin);
+    virtual std::list<GameLayer::GamePos> targetable(GameLayer *layer, GameLayer::GamePos origin) = 0;
 };
