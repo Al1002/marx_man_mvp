@@ -12,4 +12,4 @@ This project is planned to use the SDL2 library.
 
 ### Further info
 
-If You would like to get further info or You wish to contribute to this project, you may contact me at aleksandriliev05@gmail.com, althugh I usually dont respond.
+If You would like to get further info or You wish to contribute to this project, you may contact me at aleksandriliev05@gmail.com, although I usually dont respond.
