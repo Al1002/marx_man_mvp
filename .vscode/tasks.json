@@ -12,7 +12,10 @@
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-L.lib",
                 "-lmarx_man",
-                "-lgame_layer_module"
+                "-lgame_layer_module",
+                "-lgraphics_module",
+                "-lSDL2",
+                "-lSDL2main"
             ],
             "options": {
                 "cwd": "${fileDirname}"
