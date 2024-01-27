@@ -10,8 +10,9 @@
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                "-Llib",
-                "-lmarx_man"
+                "-L.lib",
+                "-lmarx_man",
+                "-lgame_layer_module"
             ],
             "options": {
                 "cwd": "${fileDirname}"

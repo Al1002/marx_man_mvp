@@ -1,4 +1,5 @@
 #include "game_layer.h"
+
 #include <iostream>
 #include <stdexcept>
 
@@ -11,7 +12,7 @@ GameLayer::GameLayer()
 	for (int x = 0; x < 10; x++)
 		for (int y = 0; y < 10; y++)
 		{
-			layer[x][y].id = 0;
+			layer[x][y] = getBlankCell();
 		}
 }
 
@@ -23,7 +24,7 @@ GameLayer::GameLayer()
  * @return true
  * @return false
  */
-bool GameLayer::exists(int x, int y)
+bool GameLayer::exists(int x, int y) const
 {
 	return !(x > 9 || x < 0 || y > 9 || y < 0);
 }
@@ -35,7 +36,7 @@ bool GameLayer::exists(int x, int y)
  * @return true
  * @return false
  */
-bool GameLayer::exists(GamePos pos)
+bool GameLayer::exists(GamePos pos) const
 {
 	int x = pos.x;
 	int y = pos.y;
@@ -49,13 +50,28 @@ bool GameLayer::exists(GamePos pos)
  * @param y
  * @return GameNode
  */
-GameNode GameLayer::getCell(int x, int y)
+GameNode GameLayer::getCell(int x, int y) const
 {
 	if (!exists(x, y))
 	{
 		throw std::runtime_error("Out of bounds exception, attempting to GET a cell that does not exist!");
 	}
 	return layer[x][y];
+}
+
+/**
+ * @brief Get the cell at coordinates `pos`
+ *
+ * @param pos
+ * @return GameNode
+ */
+GameNode GameLayer::getCell(GamePos pos) const
+{
+	if (!exists(pos))
+	{
+		throw std::runtime_error("Out of bounds exception, attempting to GET a cell that does not exist!");
+	}
+	return layer[pos.x][pos.y];
 }
 
 /**
@@ -74,7 +90,35 @@ void GameLayer::setCell(int x, int y, GameNode value)
 	layer[x][y] = value;
 }
 
+/**
+ * @brief Set the cell at coordinates `pos` to `value`
+ *
+ * @param pos
+ * @return GameNode
+ */
+void GameLayer::setCell(GamePos pos, GameNode value)
+{
+	if (!exists(pos))
+	{
+		throw std::runtime_error("Out of bounds exception, attempting to SET a cell that does not exist!");
+	}
+	layer[pos.x][pos.y] = value;
+}
 
+/**
+ * @brief Get a default cell. May be used for clearing spaces.
+ *
+ */
+GameNode GameLayer::getBlankCell()
+{
+	GameNode blank;
+	blank.layer = this;
+	blank.id = 0;
+	blank.stats.hp = 0;
+	blank.mele = NULL;
+	blank.movement = NULL;
+	return blank;
+}
 
 // UNCOMMENT FOR TESTING
 /*

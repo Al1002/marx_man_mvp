@@ -22,7 +22,7 @@ public:
 	 * @return true
 	 * @return false
 	 */
-	bool exists(int x, int y);
+	bool exists(int x, int y) const;
 
 	/**
 	 * @brief Returns if the cell with coordinates `pos` exists
@@ -31,7 +31,7 @@ public:
 	 * @return true 
 	 * @return false 
 	 */
-	bool exists(GamePos pos);
+	bool exists(GamePos pos) const;
 
 	/**
 	 * @brief Get the cell at coordinates (`x`,`y`)
@@ -40,7 +40,15 @@ public:
 	 * @param y
 	 * @return GameNode
 	 */
-	GameNode getCell(int x, int y);
+	GameNode getCell(int x, int y) const;
+
+	/**
+	 * @brief Get the cell at coordinates `pos`
+	 *
+	 * @param pos
+	 * @return GameNode
+	 */
+	GameNode getCell(GamePos pos) const;
 
 	/**
 	 * @brief Set the cell at coordinates (`x`,`y`) to `value`
@@ -50,5 +58,19 @@ public:
 	 * @param value
 	 */
 	void setCell(int x, int y, GameNode value);
+
+	/**
+	 * @brief Set the cell at coordinates `pos` to `value`
+	 *
+	 * @param pos
+	 * @return GameNode
+	 */
+	void setCell(GamePos pos, GameNode value);
+
+	/**
+	 * @brief Get a default cell. May be used for clearing spaces.
+	 * 
+	 */
+	GameNode getBlankCell();
 };
 
