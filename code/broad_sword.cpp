@@ -27,16 +27,16 @@ or
 */
 
     
-    list<GameLayer::GamePos> BroadSword::targetable(GameLayer *layer, GameLayer::GamePos origin)
+    list<GamePos> BroadSword::targetable(GameLayer *layer, GamePos origin)
     {
-        list<GameLayer::GamePos> targets;
+        list<GamePos> targets;
         for(int x = -1; x <= 1; x++)
         {
             for(int y = -1; y <= 1; y++)
             {
                 if(x == 0 && y == 0)
                     continue;
-                GameLayer::GamePos target = GameLayer::GamePos(x,y);
+                GamePos target = GamePos(x,y);
                 target = target + origin;
                 if(layer->exists(target))
                 {
@@ -47,7 +47,7 @@ or
         return targets;
     }
 
-    void BroadSword::attack(GameLayer *layer, GameLayer::GamePos origin, GameLayer::GamePos target)
+    void BroadSword::attack(GameLayer *layer, GamePos origin, GamePos target)
     {
         auto targetable = this->targetable(layer, origin);
         if(!layer->exists(target))
@@ -60,20 +60,20 @@ or
             throw new std::runtime_error("Invalid argument exception, attempting to target a cell that (BroadSword) cant target!");
         }
         
-        list<GameLayer::GamePos> targeted;
+        list<GamePos> targeted;
         auto direction = target - origin;
         if(direction.x == 0) // if orthogonal...
         {
             for (int x = -1; x <= 1; x++) // draw 3 cell line (x direction)
             {
-                targeted.push_front(target + GameLayer::GamePos(x,0));
+                targeted.push_front(target + GamePos(x,0));
             }
         }
         if(direction.y == 0) // if orthogonal...
         {
             for (int y = -1; y <= 1; y++) // draw 3 cell line (y direction)
             {
-                targeted.push_front(target + GameLayer::GamePos(0,y));
+                targeted.push_front(target + GamePos(0,y));
             }
         }
 

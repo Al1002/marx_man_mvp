@@ -25,10 +25,10 @@ int main(int argc, char **argv)
 	layer.setCell(4,5, cell);
 	layer.setCell(4,6, cell);
 	cell.mele = (MeleWeapon*) new BroadSword();
-	cell.pos = GameLayer::GamePos(5,5);
+	cell.pos = GamePos(5,5);
 	cell.layer = &layer;
 	layer.setCell(5,5,cell);
-	layer.layer[5][5].useMele(GameLayer::GamePos(4,5));
+	layer.layer[5][5].useMele(GamePos(4,5));
 	std::cout<<"Cell hp are:"<<std::endl;
 	std::cout<<"4,4: "<<layer.getCell(4,4).stats.hp<<std::endl;
 	std::cout<<"4,5: "<<layer.getCell(4,5).stats.hp<<std::endl;

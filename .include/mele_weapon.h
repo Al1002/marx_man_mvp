@@ -1,5 +1,6 @@
 #pragma once
 #include "game_layer.h"
+#include "game_pos.h"
 #include <list>
 
 /**
@@ -15,14 +16,14 @@ public:
      * @param origin The origin of the attack
      * @param target The tile to be attacked/targeted
      */
-    virtual void attack(GameLayer *layer, GameLayer::GamePos origin, GameLayer::GamePos target) = 0;
+    virtual void attack(GameLayer *layer, GamePos origin, GamePos target) = 0;
     
     /**
      * @brief Returns list of tiles the weapon can target.
      * 
      * @param layer 
      * @param origin 
-     * @return std::list<GameLayer::GamePos> 
+     * @return std::list<GamePos> 
      */
-    virtual std::list<GameLayer::GamePos> targetable(GameLayer *layer, GameLayer::GamePos origin) = 0;
+    virtual std::list<GamePos> targetable(GameLayer *layer, GamePos origin) = 0;
 };

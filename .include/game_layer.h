@@ -1,52 +1,10 @@
 #pragma once
-
-class MeleWeapon;
+#include "game_node.h"
+#include "game_pos.h"
 
 class GameLayer
 {
 public:
-	/**
-	 * @brief A class representing the stats of our entitie(s)
-	 * 
-	 */
-	class Stats
-	{
-	public:
-		int hp;
-	};
-
-	/**
-	 * @brief Class representing a position somewhere on the board, with fields `x` and `y`
-	 * 
-	 */
-	class GamePos
-	{
-	public:
-		int x;
-		int y;
-
-		GamePos();
-
-		GamePos(int x, int y);
-
-		GamePos operator-(GamePos const &other);
-
-		GamePos operator+(GamePos const &other);
-
-		bool operator==(GamePos const &other);
-	};
-
-	class GameNode
-	{
-	public:
-		int id;
-		GameLayer *layer;
-		GamePos pos;
-		Stats stats;
-		MeleWeapon *mele;
-		void setLayer(GameLayer *layer);
-		void useMele(GamePos target);
-	};
 
 	GameNode layer[10][10];
 

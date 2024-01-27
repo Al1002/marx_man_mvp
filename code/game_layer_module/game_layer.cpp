@@ -1,9 +1,6 @@
+#include "game_layer.h"
 #include <iostream>
 #include <stdexcept>
-#include "game_layer.h"
-
-typedef GameLayer::GameNode GameNode; // just uncovers the name for this translation unit, doesnt work with methods :/
-typedef GameLayer::GamePos GamePos;
 
 /**
  * @brief Construct a new `GameLayer` object, with `.id` set to 0
