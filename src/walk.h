@@ -20,7 +20,7 @@ class Walk : public UnitMovement
                     continue;
                 GamePos target = GamePos(x, y);
                 target = target + origin;
-                if (layer->exists(target))
+                if (layer->isValid(target) && !layer->exists(target))
                 {
                     targets.push_front(target);
                 }
@@ -31,18 +31,6 @@ class Walk : public UnitMovement
 
     void move(GameLayer *layer, GamePos origin, GamePos target)
     {
-        auto targetable = this->reachable(layer, origin);
-        if (!layer->exists(target))
-        {
-            throw new std::runtime_error("Out of bounds exception, attempting to reach a cell that does not exist in the given layer!");
-        }
-
-        if (find(targetable.begin(), targetable.end(), target) == targetable.end()) // if target not found in targetable, i.e. reached end
-        {
-            throw new std::runtime_error("Invalid argument exception, attempting to reach a cell that (walk) cant reach!");
-        }
-
-        layer->setCell(target, layer->getCell(origin));
-        layer->setCell(origin, layer->getBlankCell());
+        layer->setNode(target, layer->getNode(origin));
     }
 };

@@ -12,7 +12,7 @@ GameLayer::GameLayer()
 	for (int x = 0; x < 10; x++)
 		for (int y = 0; y < 10; y++)
 		{
-			layer[x][y] = getBlankCell();
+			layer[x][y] = NULL;
 		}
 }
 
@@ -24,7 +24,7 @@ GameLayer::GameLayer()
  * @return true
  * @return false
  */
-bool GameLayer::exists(int x, int y) const
+bool GameLayer::isValid(int x, int y) const
 {
 	return !(x > 9 || x < 0 || y > 9 || y < 0);
 }
@@ -36,11 +36,46 @@ bool GameLayer::exists(int x, int y) const
  * @return true
  * @return false
  */
+bool GameLayer::isValid(GamePos pos) const
+{
+	return isValid(pos.x, pos.y);
+}
+
+/**
+ * @brief Returns if the node with coordinates (`x`,`y`) exists
+ *
+ * @param x
+ * @param y
+ * @return true
+ * @return false
+ */
+bool GameLayer::exists(int x, int y) const
+{
+	return isValid(x,y) && layer[x][y] != NULL;
+}
+
+/**
+ * @brief Returns if the node with coordinates `pos` exists
+ *
+ * @param pos
+ * @return true
+ * @return false
+ */
 bool GameLayer::exists(GamePos pos) const
 {
-	int x = pos.x;
-	int y = pos.y;
-	return !(x > 9 || x < 0 || y > 9 || y < 0);
+	return exists(pos.x, pos.y);
+}
+
+/**
+ * @brief Returns if the node associated with `key` exists
+ *
+ * @param key
+ * @return true
+ * @return false
+ */
+bool GameLayer::exists(int key) const
+{
+	return nodes.count(key);
 }
 
 /**
@@ -50,13 +85,13 @@ bool GameLayer::exists(GamePos pos) const
  * @param y
  * @return GameNode
  */
-GameNode GameLayer::getCell(int x, int y) const
+GameNode GameLayer::getNode(int x, int y) const
 {
 	if (!exists(x, y))
 	{
 		throw std::runtime_error("Out of bounds exception, attempting to GET a cell that does not exist!");
 	}
-	return layer[x][y];
+	return *layer[x][y];
 }
 
 /**
@@ -65,13 +100,24 @@ GameNode GameLayer::getCell(int x, int y) const
  * @param pos
  * @return GameNode
  */
-GameNode GameLayer::getCell(GamePos pos) const
+GameNode GameLayer::getNode(GamePos pos) const
 {
-	if (!exists(pos))
+	return getNode(pos.x, pos.y);
+}
+
+/**
+ * @brief Get the node identified by `key`
+ *
+ * @param key
+ * @return GameNode
+ */
+GameNode GameLayer::getNode(int key) const
+{
+	if (!exists(key))
 	{
-		throw std::runtime_error("Out of bounds exception, attempting to GET a cell that does not exist!");
+		throw std::runtime_error("Invalid argument exception, attempting to GET a cell that does not exist!");
 	}
-	return layer[pos.x][pos.y];
+	return *nodes.at(key);
 }
 
 /**
@@ -81,13 +127,31 @@ GameNode GameLayer::getCell(GamePos pos) const
  * @param y
  * @param value
  */
-void GameLayer::setCell(int x, int y, GameNode value)
+void GameLayer::setNode(int x, int y, GameNode value)
 {
-	if (!exists(x, y))
+	if (!isValid(x, y))
 	{
 		throw std::runtime_error("Out of bounds exception, attempting to SET a cell that does not exist!");
 	}
-	layer[x][y] = value;
+	if (!exists(x,y)) // empty, move cell
+	{
+		value.pos = GamePos(x, y);
+		auto old_value = getNode(value.getKey());
+		layer[old_value.pos.x][old_value.pos.y] = NULL; 				// clearing the old cell in layer
+		layer[value.pos.x][value.pos.y] = nodes[value.getKey()];	// and setting the new cell to point to the same place
+		*nodes[value.getKey()] = value;
+	}
+	else
+	if (layer[x][y]->id == value.id) // same place, just edit the value
+	{
+		value.pos = GamePos(x, y);
+		*layer[x][y] = value;
+	}
+	else // writing over another node
+	{
+		throw std::runtime_error("Invalid argument exception, attempting to overwrite another node!");
+	}
+	
 }
 
 /**
@@ -96,48 +160,62 @@ void GameLayer::setCell(int x, int y, GameNode value)
  * @param pos
  * @return GameNode
  */
-void GameLayer::setCell(GamePos pos, GameNode value)
+void GameLayer::setNode(GamePos pos, GameNode value)
 {
-	if (!exists(pos))
+	setNode(pos.x, pos.y, value);
+}
+
+void GameLayer::setNode(int key, GameNode value)
+{
+	// this is special, as we may need to edit positions
+	if (key != value.id)
 	{
-		throw std::runtime_error("Out of bounds exception, attempting to SET a cell that does not exist!");
+		throw std::runtime_error("Fuck you!");
 	}
-	layer[pos.x][pos.y] = value;
+	if (!exists(key))
+	{
+		throw std::runtime_error("Invalid argumen exception, attempting to SET a cell that does not exist!");
+	}
+	if (layer[value.pos.x][value.pos.y]->id != value.id) // writing over another node
+	{
+		throw std::runtime_error("Invalid argument exception, attempting to overwrite another node!");
+	}
+	else // just edit the values, and update layer data
+	{
+		auto old_value = *nodes[key];
+		layer[old_value.pos.x][old_value.pos.y] = NULL; // clearing the old cell in layer
+		layer[value.pos.x][value.pos.y] = nodes[key];	// and setting the new cell to point to the same place
+		*nodes[key] = value;
+	}
 }
 
 /**
  * @brief Get a default cell. May be used for clearing spaces.
  *
  */
-GameNode GameLayer::getBlankCell()
+GameNode GameLayer::spawnNewNode(int x, int y)
 {
-	GameNode blank;
-	blank.layer = this;
-	blank.id = 0;
-	blank.stats.hp = 0;
-	blank.mele = NULL;
-	blank.movement = NULL;
-	return blank;
+	if (!isValid(x, y))
+	{
+		throw std::runtime_error("Invalid argument exception, attempting to overwrite another node!");
+	}
+	GameNode *node = new GameNode();
+	node->id = ++id;
+	node->layer = this;
+	node->pos = GamePos(x, y);
+	layer[x][y] = node;
+	nodes[id] = node;
+	return *node;
 }
 
-// UNCOMMENT FOR TESTING
-/*
-int main(int argc, char **argv)
+void GameLayer::deleteNode(int x, int y)
 {
-	GameLayer jim;
-	std::cout<<"Get cell, set id to 10, save it to the board:"<<std::endl;
-	auto cell = jim.getCell(0,0);
-	std::cout<<"Cell id: "<<cell.id<<std::endl;
-	std::cout<<"Modifying cell..."<<std::endl;
-	cell.id = 10;
-	jim.setCell(0,0,cell);
-	std::cout<<"Cell new id: "<<jim.getCell(0,0).id<<std::endl;
-	std::cout<<"Attempting access at x7,y11..."<<std::endl;
-	try{
-		jim.getCell(7,11);
-	}catch(const std::exception& e){
-		std::cout<<e.what()<<std::endl;
-	};
-
-	return 0;
-}*/
+	if (!exists(x, y))
+	{
+		throw std::runtime_error("Trying to erase a node that doesnt exist!");
+	}
+	auto value = layer[x][y];
+	nodes.erase(value->id);
+	layer[x][y] = NULL;
+	delete value;
+}

@@ -4,89 +4,60 @@
 
 #include ".include/red_rectangle.h"
 #include ".include/walk.h"
+#include <unistd.h>
 
-
-class Unit {
-public:
-	GameNode *node;
-	Sprite *sprite;
-	void useMele(GamePos target)
-	{
-		node->useMele(target);
-	}
-    void move(GamePos target)
-	{
-		node->move(target);
-	}
-	void draw(Visualizer *v, Visual::Point p)
-	{
-		sprite->draw(v,p);
-	}
-};
+void print_layer(GameLayer layer);
 
 
 // writes a cell value and catches an error
-void game_layer_test_a()
+bool game_layer_test_a()
 {
-	GameLayer jim;
-	std::cout<<"Get cell, set id to 10, save it to the board:"<<std::endl;
-	auto cell = jim.getCell(0,0);
-	std::cout<<"Cell id: "<<cell.id<<std::endl;
-	std::cout<<"Modifying cell..."<<std::endl;
-	cell.id = 1;
-	jim.setCell(0,0,cell);
-	std::cout<<"Cell new id: "<<jim.getCell(0,0).id<<std::endl;
-	std::cout<<"Attempting access at x7,y11..."<<std::endl;
-	try{
-		jim.getCell(7,11);
-	}catch(const std::exception& e){
-		std::cout<<e.what()<<std::endl;
-	};
+	GameLayer l;
+	l.spawnNewNode(0,0);
+	// wrap with class Unit so we can avoid most of the get-set bullshit
+	auto node = l.getNode(0,0);
+	node.mele = new BroadSword;
+	node.movement = new Walk;
+	l.setNode(node.getKey(), node);
+	print_layer(l);
+	for(int i = 0; i < 3; i++)
+	{
+		l.getNode(node.getKey()).useMove(l.getNode(node.getKey()).getPos() + GamePos(1,1));
+		print_layer(l);
+	}
+	node = l.getNode(node.getKey());
+	l.spawnNewNode(4,2);
+	l.spawnNewNode(4,3);
+	l.spawnNewNode(4,4);
+	node.useMele(node.getPos() + GamePos(1,0));
+	print_layer(l);
+	return true;
 }
 
 void print_layer(GameLayer layer)
 {
-	auto blank = layer.getBlankCell();
-	for(int i = 0; i < 10; i++)
+	for(int j = 0; j < 10; j++)
 	{
-		for(int j = 0; j < 10; j++)
+		for(int i = 0; i < 10; i++)
 		{
-			auto cell = layer.getCell(i, j);
-			if(cell.stats.hp == blank.stats.hp)
+			if(!layer.exists(i, j))
 			{
 				std::cout<<"#";
 			}
 			else
 			{
-				std::cout<<cell.stats.hp;
+				std::cout<<layer.getNode(i, j).stats.hp;
 			}
 		}
 		std::cout<<std::endl;
 	}
+	std::cout<<std::endl;
 }
 
 // uses a weapon
-void game_layer_test_b()
+bool game_layer_test_b()
 {
-	std::cout<<"Setting up game layer, giving cell 5,5 a broadsword, swinging right, then seeing what happens:"<<std::endl;
-	GameLayer layer;
-	print_layer(layer);
-	auto cell = layer.getBlankCell();
-	cell.stats.hp = 0;
-	layer.setCell(4,4, cell);
-	layer.setCell(4,5, cell);
-	layer.setCell(4,6, cell);
-	cell.mele = (MeleWeapon*) new BroadSword();
-	cell.pos = GamePos(5,5);
-	cell.layer = &layer;
-	layer.setCell(5,5,cell);
-	layer.layer[5][5].useMele(GamePos(4,5));
-	std::cout<<std::endl;
-	print_layer(layer);
-	std::cout<<"Cell hp are:"<<std::endl;
-	std::cout<<"4,4: "<<layer.getCell(4,4).stats.hp<<std::endl;
-	std::cout<<"4,5: "<<layer.getCell(4,5).stats.hp<<std::endl;
-	std::cout<<"4,6: "<<layer.getCell(4,6).stats.hp<<std::endl;
+	return true;
 }
 
 // draws on the screen
@@ -111,34 +82,11 @@ void graphic_module_test()
 // creates a node, gives it some objects that implement interfaces, then runs them
 void module_composit_test()
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	Visualizer v;
-	v.set_draw_color(RGBA_WHITE);
-	v.flush();
-	GameLayer layer;
-	Unit unit;
 	
-	unit.node = new GameNode;
-	*unit.node = layer.getBlankCell();
-	unit.node->pos = GamePos(3,2);
-	unit.sprite = new RedRectangle;
-	unit.node->movement = new Walk;
-	unit.node->mele = new BroadSword;
-	unit.draw(&v, Visual::Point{30,30});
-	unit.move(GamePos(3,3));
-	try{
-		unit.useMele(GamePos(3,3));
-	}catch(std::runtime_error e){
-		std::cout<<e.what()<<std::endl;
-	}
-	unit.useMele(GamePos(4,3));
-	print_layer(layer);
-	v.present();
-	SDL_Quit();
 }
 
 int main(int argc, char **argv)
 {
-	module_composit_test();
+	game_layer_test_a();
 	return 0;
 }

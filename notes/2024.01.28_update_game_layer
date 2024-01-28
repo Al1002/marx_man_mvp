@@ -1,0 +1,21 @@
+game layer should act more like a cache, and in accordance with that -
+
+game nodes should work with identifiers, aka
+
+i create my node, jhon, i add him to the layer and get a key
+
+any time i want to do something with jhon, i layer.getNode(key) and do
+
+whatever it is i do
+
+if jhon moves, gets moved, explodes, so on, i will know that
+
+rn, jhon is unique in possition alone, so not good
+
+
+this, i believe, calls for a hash table (key:id, value:node)
+
+another obv function would be getAtPos(pos) -> key
+
+this way, we can get the cell next to us, move it back 2 tiles via interface,
+and its owner will still be able to get it

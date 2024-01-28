@@ -16,14 +16,19 @@ public:
 
 class GameNode
 {
-public:
+
     int id;
-    GameLayer *layer;
     GamePos pos;
+    GameLayer *layer;
+    GameNode();
+public:
     Stats stats;
     MeleWeapon *mele;
     UnitMovement *movement;
-    void setLayer(GameLayer *layer);
+    int getId() const;
+    int getKey() const;
+    GamePos getPos() const;
     void useMele(GamePos target);
-    void move(GamePos target);
+    void useMove(GamePos target);
+    friend class GameLayer;
 };

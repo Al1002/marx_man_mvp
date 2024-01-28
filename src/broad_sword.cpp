@@ -37,7 +37,7 @@ list<GamePos> BroadSword::targetable(GameLayer *layer, GamePos origin)
                 continue;
             GamePos target = GamePos(x, y);
             target = target + origin;
-            if (layer->exists(target))
+            if (layer->isValid(target))
             {
                 targets.push_front(target);
             }
@@ -48,16 +48,7 @@ list<GamePos> BroadSword::targetable(GameLayer *layer, GamePos origin)
 
 void BroadSword::attack(GameLayer *layer, GamePos origin, GamePos target)
 {
-    auto targetable = this->targetable(layer, origin);
-    if (!layer->exists(target))
-    {
-        throw new std::runtime_error("Out of bounds exception, attempting to target a cell that does not exist in the given layer!");
-    }
 
-    if (find(targetable.begin(), targetable.end(), target) == targetable.end()) // if target not found in targetable, i.e. reached end
-    {
-        throw new std::runtime_error("Invalid argument exception, attempting to target a cell that (BroadSword) cant target!");
-    }
 
     list<GamePos> targeted;
     auto direction = target - origin;
@@ -79,8 +70,10 @@ void BroadSword::attack(GameLayer *layer, GamePos origin, GamePos target)
     // reduce hp for target cells by 1
     for (auto iter = targeted.begin(); iter != targeted.end(); ++iter)
     {
-        auto cell = layer->getCell(iter->x, iter->y);
+        if(!layer->exists(iter->x, iter->y))
+            continue;
+        auto cell = layer->getNode(iter->x, iter->y);
         cell.stats.hp--;
-        layer->setCell(iter->x, iter->y, cell);
+        layer->setNode(iter->x, iter->y, cell);
     }
 }
