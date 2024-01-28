@@ -1,7 +1,29 @@
 #include <iostream>
 #include ".include/game_layer.h"
 #include ".include/broad_sword.h"
-#include ".include/visualizer.h"
+
+#include ".include/red_rectangle.h"
+#include ".include/walk.h"
+
+
+class Unit {
+public:
+	GameNode *node;
+	Sprite *sprite;
+	void useMele(GamePos target)
+	{
+		node->useMele(target);
+	}
+    void move(GamePos target)
+	{
+		node->move(target);
+	}
+	void draw(Visualizer *v, Visual::Point p)
+	{
+		sprite->draw(v,p);
+	}
+};
+
 
 // writes a cell value and catches an error
 void game_layer_test_a()
@@ -30,13 +52,13 @@ void print_layer(GameLayer layer)
 		for(int j = 0; j < 10; j++)
 		{
 			auto cell = layer.getCell(i, j);
-			if(cell.id == blank.id)
+			if(cell.stats.hp == blank.stats.hp)
 			{
 				std::cout<<"#";
 			}
 			else
 			{
-				std::cout<<cell.id;
+				std::cout<<cell.stats.hp;
 			}
 		}
 		std::cout<<std::endl;
@@ -82,11 +104,41 @@ void graphic_module_test()
 	v.present();
 	int stall;
 	std::cin>>stall;
+	while(1);
+	SDL_Quit();
+}
+
+// creates a node, gives it some objects that implement interfaces, then runs them
+void module_composit_test()
+{
+	SDL_Init(SDL_INIT_EVERYTHING);
+	Visualizer v;
+	v.set_draw_color(RGBA_WHITE);
+	v.flush();
+	GameLayer layer;
+	Unit unit;
+	
+	unit.node = new GameNode;
+	*unit.node = layer.getBlankCell();
+	unit.node->pos = GamePos(3,2);
+	unit.sprite = new RedRectangle;
+	unit.node->movement = new Walk;
+	unit.node->mele = new BroadSword;
+	unit.draw(&v, Visual::Point{30,30});
+	unit.move(GamePos(3,3));
+	try{
+		unit.useMele(GamePos(3,3));
+	}catch(std::runtime_error e){
+		std::cout<<e.what()<<std::endl;
+	}
+	unit.useMele(GamePos(4,3));
+	print_layer(layer);
+	v.present();
 	SDL_Quit();
 }
 
 int main(int argc, char **argv)
 {
-	graphic_module_test();
+	module_composit_test();
 	return 0;
 }

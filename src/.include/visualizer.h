@@ -15,20 +15,23 @@ namespace Visual
 {
     // WARNING: X and X_FILLED MUST AWAYS BE n-th and n+1-th, otherwise set_fullness() bricks :)
     enum ShapeType{LINE, RECT, RECT_FILLED, CIRCLE, CIRCLE_FILLED};
+    
     /**
-     * @brief A point
+     * @brief A point on the screen.
      * 
      */
     typedef SDL_Point Point;
+    
     /**
-     * @brief A line
+     * @brief A line on the screen.
      * 
      */
     typedef struct{
         Point a, b;
     }Line;
+    
     /**
-     * @brief A rectangle
+     * @brief A rectangle on the screen.
      * 
      */
     typedef SDL_Rect Rect;
@@ -41,8 +44,9 @@ namespace Visual
             };
         };
     }Color;
+    
     /**
-     * @brief A circle
+     * @brief A circle on the screen.
      * 
      */
     typedef struct{
@@ -58,7 +62,7 @@ namespace Visual
 }
 
 /**
- * @brief An abstarct class (union) of shapes
+ * @brief An abstarct class (union) of shapes on the screen.
  * 
  */
 class VisualShape{

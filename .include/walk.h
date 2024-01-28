@@ -7,9 +7,8 @@
 using std::find;
 using std::list;
 
-class Walk : UnitMovement
+class Walk : public UnitMovement
 {
-
     std::list<GamePos> reachable(GameLayer *layer, GamePos origin)
     {
         list<GamePos> targets;

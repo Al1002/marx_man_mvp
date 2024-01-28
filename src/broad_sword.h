@@ -1,7 +1,7 @@
 #include ".include/mele_weapon.h"
 
 
-class BroadSword : MeleWeapon{
+class BroadSword : public MeleWeapon{
     
     std::list<GamePos> targetable(GameLayer *layer, GamePos origin);
 

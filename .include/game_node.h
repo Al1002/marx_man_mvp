@@ -27,4 +27,3 @@ public:
     void useMele(GamePos target);
     void move(GamePos target);
 };
-#include "mele_weapon.h"

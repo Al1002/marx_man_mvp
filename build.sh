@@ -29,7 +29,7 @@ script_dir="$(dirname "$0")"
 
 cd $script_dir
 
-recursive_build code/
+recursive_build src/
 
 source dependencies.conf
 if [ -f main.cpp ]; then
