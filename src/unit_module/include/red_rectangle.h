@@ -1,4 +1,4 @@
-#include ".include/sprite.h"
+#include "sprite.h"
 
 class RedRectangle : public Sprite
 {

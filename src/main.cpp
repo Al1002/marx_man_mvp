@@ -1,9 +1,8 @@
 #include <iostream>
-#include ".include/game_layer.h"
-#include ".include/broad_sword.h"
 
-#include ".include/red_rectangle.h"
-#include ".include/walk.h"
+#include "red_rectangle.h"
+#include "broad_sword.h"
+#include "walk.h"
 #include <unistd.h>
 
 void print_layer(GameLayer layer);

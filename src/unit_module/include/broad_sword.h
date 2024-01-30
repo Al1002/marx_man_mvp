@@ -1,4 +1,4 @@
-#include ".include/mele_weapon.h"
+#include "mele_weapon.h"
 
 
 class BroadSword : public MeleWeapon{
