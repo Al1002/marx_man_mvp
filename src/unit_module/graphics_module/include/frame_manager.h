@@ -36,5 +36,5 @@ public:
      * @brief Draws the most recent frame. May reuse old frames if no new ones were provided.
      * 
      */
-    void drawAll();
+    void drawFrame();
 };

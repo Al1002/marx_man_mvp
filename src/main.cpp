@@ -2,7 +2,7 @@
 
 #include "unit.h"
 #include "frame_manager.h"
-#include "red_rectangle.h"
+#include "rectangle.h"
 #include "broad_sword.h"
 #include "walk.h"
 #include <unistd.h>
@@ -97,11 +97,10 @@ void graphic_module_test_b()
 {
 	FrameManager jeph("This is a game window", 1024, 720);
 	jeph.beginFrame();
-	RedRectangle *red = new RedRectangle;
-	red->setPos((Visual::Point){100,100});
+	SpriteRectangle *red = new SpriteRectangle(100, 100, 100, 100, RGBA_RED);
 	jeph.addSprite(red, 0);
 	jeph.endFrame();
-	jeph.drawAll();
+	jeph.drawFrame();
 	usleep(1000000);
 }
 
@@ -111,9 +110,110 @@ void module_composit_test()
 	
 }
 
+enum Input
+{
+	QUIT = -1,
+	EMPTY = 0,
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	R_CLICK,
+	L_CLICK
+};
+
+SDL_Event input_event;
+
+// does a bunch of shit ig? Also, writes to global 'input_event'
+Input input()
+{
+	SDL_Event e;
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT)
+			return QUIT;
+		if (e.type == SDL_KEYDOWN)
+		{
+			if (e.key.keysym.scancode == SDL_SCANCODE_UP || e.key.keysym.scancode == SDL_SCANCODE_W)
+			{
+				return UP;
+			}
+			if (e.key.keysym.scancode == SDL_SCANCODE_DOWN || e.key.keysym.scancode == SDL_SCANCODE_S)
+			{
+				return DOWN;
+			}
+			if (e.key.keysym.scancode == SDL_SCANCODE_LEFT || e.key.keysym.scancode == SDL_SCANCODE_A)
+			{
+				return LEFT;
+			}
+			if (e.key.keysym.scancode == SDL_SCANCODE_RIGHT || e.key.keysym.scancode == SDL_SCANCODE_D)
+			{
+				return RIGHT;
+			}
+		}
+		if (e.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (e.button.button == SDL_BUTTON_LEFT)
+			{
+				input_event = e;
+				return L_CLICK;
+			}
+			if (e.button.button == SDL_BUTTON_RIGHT)
+			{
+				input_event = e;
+				return R_CLICK;
+			}
+		}
+	}
+	return EMPTY;
+}
+
+void game()
+{
+	GameLayer l;
+	FrameManager screen("Marx-man", 1024, 720);
+	Unit mah_boi(&l, 0, 0);
+	mah_boi.giveMove(new Walk);
+	SpriteRectangle *rect = new SpriteRectangle(0, 0, 10, 10, RGBA_RED);
+	SpriteRectangle *backg = new SpriteRectangle(0, 0, 1024, 720, RGBA_CYAN);
+	while (true)
+	{
+		rect->setPos(Visual::Point{20*mah_boi.getPos().x,20*mah_boi.getPos().y});
+		screen.beginFrame();
+		screen.addSprite(rect, 9);
+		screen.addSprite(backg, 0);
+		screen.endFrame();
+		screen.drawFrame();
+		Input in = input();
+		usleep(10000);
+		if(in == QUIT)
+		{
+			break;
+		}
+		if(in == EMPTY)
+			continue;
+		if(in == RIGHT)
+		{
+			mah_boi.useMove(mah_boi.getPos() + GamePos(1,0));
+		}
+		if(in == LEFT)
+		{
+			mah_boi.useMove(mah_boi.getPos() + GamePos(-1,0));
+		}
+		if(in == DOWN)
+		{
+			mah_boi.useMove(mah_boi.getPos() + GamePos(0,1));
+		}
+		if(in == UP)
+		{
+			mah_boi.useMove(mah_boi.getPos() + GamePos(0,-1));
+		}
+	}
+	
+}
+
 int main(int argc, char **argv)
 {
-	graphic_module_test_a();
-	graphic_module_test_b();
+	game();
 	return 0;
 }

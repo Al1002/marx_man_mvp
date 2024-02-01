@@ -2,14 +2,14 @@
 #include <SDL2/SDL.h>
 #include <list>
 
-#define RGBA_RED 255, 0, 0, 255
-#define RGBA_GREEN 0, 255, 0, 255
-#define RGBA_BLUE 0, 0, 255, 255
-#define RGBA_CYAN 0, 127, 127, 255
-#define RGBA_YELLOW 127, 127, 0, 255
-#define RGBA_MAGENTA 0, 127, 127, 255
-#define RGBA_WHITE 255, 255, 255, 255
-#define RGBA_BLACK 0, 0, 0, 255
+#define RGBA_RED (Uint8)255, (Uint8)0, (Uint8)0, (Uint8)255
+#define RGBA_GREEN (Uint8)0, (Uint8)255, (Uint8)0, (Uint8)255
+#define RGBA_BLUE (Uint8)0, (Uint8)0, (Uint8)255, (Uint8)255
+#define RGBA_CYAN (Uint8)0, (Uint8)127, (Uint8)127, (Uint8)255
+#define RGBA_YELLOW (Uint8)127, (Uint8)127, (Uint8)0, (Uint8)255
+#define RGBA_MAGENTA (Uint8)0, (Uint8)127, (Uint8)127, (Uint8)255
+#define RGBA_WHITE (Uint8)255, (Uint8)255, (Uint8)255, (Uint8)255
+#define RGBA_BLACK (Uint8)0, (Uint8)0, (Uint8)0, (Uint8)255
 
 namespace Visual
 {
