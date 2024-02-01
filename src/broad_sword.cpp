@@ -48,8 +48,6 @@ list<GamePos> BroadSword::targetable(GameLayer *layer, GamePos origin)
 
 void BroadSword::attack(GameLayer *layer, GamePos origin, GamePos target)
 {
-
-
     list<GamePos> targeted;
     auto direction = target - origin;
     if (direction.x == 0) // if orthogonal...

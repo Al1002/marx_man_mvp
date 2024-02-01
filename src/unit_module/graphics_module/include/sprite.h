@@ -4,5 +4,5 @@
 class Sprite
 {
 public:
-    virtual void draw(Visualizer *v, Visual::Point p) = 0;
+    virtual void draw(Visualizer *v) = 0;
 };

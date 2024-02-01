@@ -6,9 +6,9 @@
  * @brief Construct a new Visualizer:: Visualizer object
  * 
  */
-Visualizer::Visualizer()
+Visualizer::Visualizer(const char *window_name, int width, int height)
 {
-    this->window = SDL_CreateWindow("Hello world!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 720, SDL_WINDOW_SHOWN);
+    this->window = SDL_CreateWindow(window_name, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
     this->render = SDL_CreateRenderer(window, -1, 0);
 }
 

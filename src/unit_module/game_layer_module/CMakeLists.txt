@@ -1,6 +1,6 @@
 file(GLOB SOURCE_FILES "*.cpp")
 
-add_library(game_layer_module ${SOURCE_FILES})
+add_library(game_layer_module ${SOURCE_FILES} unit_movement.cpp)
 
 target_include_directories(
     game_layer_module

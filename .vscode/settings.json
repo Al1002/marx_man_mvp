@@ -1,3 +1,6 @@
 {
-    "cmake.sourceDirectory": "/home/sasho_b/Coding/marx_man_mvp/src"
+    "cmake.sourceDirectory": "/home/sasho_b/Coding/marx_man_mvp/src",
+    "files.associations": {
+        "stdexcept": "cpp"
+    }
 }

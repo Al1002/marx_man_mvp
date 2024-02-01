@@ -1,53 +1,48 @@
+#include "unit.h"
 #include "game_layer.h"
 
-class Unit
+GameNode Unit::getNode()
 {
-    GameLayer *layer;
-    int key;
+    return layer->getNode(key);
+}
+void Unit::setNode(GameNode node)
+{
+    layer->setNode(key, node);
+}
 
-    GameNode getNode()
-    {
-        return layer->getNode(key);
-    }
-    void setNode(GameNode node)
-    {
-        layer->setNode(key, node);
-    }
-public:
-    Unit(GameLayer *l, int x, int y)
-    {
-        layer = l;
-        key = layer->spawnNewNode(x, y).getKey();
-    }
+Unit::Unit(GameLayer *l, int x, int y)
+{
+    layer = l;
+    key = layer->spawnNewNode(x, y).getKey();
+}
 
-    GamePos getPos()
-    {
-        return getNode().getPos();
-    }
-    
-    void giveMele(MeleWeapon *mele)
-    {
-        auto node = getNode();
-        node.mele = mele;
-        setNode(node);
-    }
+GamePos Unit::getPos()
+{
+    return getNode().getPos();
+}
 
-    void giveMove(UnitMovement *move)
-    {
-        auto node = getNode();
-        node.movement = move;
-        setNode(node);
-    }
-    
-    void useMele(GamePos pos)
-    {
-        auto node = getNode();
-        node.useMele(pos);
-    }
-    
-    void useMove(GamePos pos)
-    {
-        auto node = getNode();
-        node.useMove(pos);
-    }
-};
+void Unit::giveMele(MeleWeapon *mele)
+{
+    auto node = getNode();
+    node.mele = mele;
+    setNode(node);
+}
+
+void Unit::giveMove(UnitMovement *move)
+{
+    auto node = getNode();
+    node.movement = move;
+    setNode(node);
+}
+
+void Unit::useMele(GamePos pos)
+{
+    auto node = getNode();
+    node.useMele(pos);
+}
+
+void Unit::useMove(GamePos pos)
+{
+    auto node = getNode();
+    node.useMove(pos);
+}

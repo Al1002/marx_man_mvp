@@ -89,7 +89,7 @@ private:
     
 public:
     SDL_Renderer *render;
-    Visualizer();
+    Visualizer(const char *window_name, int width, int height);
     void present();
     void set_draw_color(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
     void set_draw_color(Visual::Color color);
